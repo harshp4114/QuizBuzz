@@ -12,7 +12,7 @@ using QuizApplicationMVC.Data;
 namespace QuizApplicationMVC.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20241024144850_InitialCreate")]
+    [Migration("20241024185812_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

@@ -28,7 +28,6 @@ namespace QuizApplicationMVC.Controllers
             return RedirectToAction("Index", "Home", null);
         }
 
-        // GET: Users
         public async Task<IActionResult> Index()
         {
               return _context.Users != null ? 
@@ -36,7 +35,6 @@ namespace QuizApplicationMVC.Controllers
                           Problem("Entity set 'ApplicationDBContext.Users'  is null.");
         }
 
-        // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Users == null)
@@ -54,7 +52,6 @@ namespace QuizApplicationMVC.Controllers
             return View(users);
         }
 
-        // GET: Users/Create
         public IActionResult Create()
         {
             return View();
@@ -81,15 +78,11 @@ namespace QuizApplicationMVC.Controllers
                 return View();
             }
             HttpContext.Session.SetInt32("Id", userData.Id);
-            //HttpContext.Session.SetBa("Id", userData.Id);
             Console.WriteLine(HttpContext.Session.GetInt32("Id"));
 
             return RedirectToAction("Index", "Home", null);
         }
 
-        // POST: Users/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Email,Password")] Users users)
@@ -110,22 +103,20 @@ namespace QuizApplicationMVC.Controllers
                 return RedirectToAction("Login", "Users");
             }
 
-            // Assuming you have a relationship between users and quizzes in your database
             var userId = HttpContext.Session.GetInt32("Id");
 
             var quizHistory = await _context.QuizUserHistory
                 .Include(qu => qu.Quiz)
-                    .ThenInclude(quiz => quiz.Questions) // Include the Questions property within Quiz
+                    .ThenInclude(quiz => quiz.Questions) 
                 .Where(qu => qu.UserId == userId)
                 .ToListAsync();
 
-            quizHistory.Reverse(); // Reverse the list
+            quizHistory.Reverse(); 
 
             return View(quizHistory);
         }
 
 
-        // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Users == null)
@@ -141,9 +132,6 @@ namespace QuizApplicationMVC.Controllers
             return View(users);
         }
 
-        // POST: Users/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Email,Password")] Users users)
@@ -176,7 +164,6 @@ namespace QuizApplicationMVC.Controllers
             return View(users);
         }
 
-        // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Users == null)
@@ -194,7 +181,6 @@ namespace QuizApplicationMVC.Controllers
             return View(users);
         }
 
-        // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

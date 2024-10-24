@@ -18,8 +18,6 @@ namespace QuizApplicationMVC.Models
 
         [Display(Name = "Date Taken")]
         public DateTime DateTaken { get; set; }
-
-        // Navigation properties
         public Users User { get; set; }
         public Quiz Quiz { get; set; }
     }

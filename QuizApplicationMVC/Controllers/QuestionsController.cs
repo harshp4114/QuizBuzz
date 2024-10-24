@@ -19,12 +19,10 @@ namespace QuizApplicationMVC.Controllers
             _context = context;
         }
 
-        // GET: Questions
         public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetInt32("Id") == null)
             {
-                // Session is not set, so redirect to the login page or take appropriate action
                 return RedirectToAction("Login", "Users");
             }
             if (HttpContext.Session.GetInt32("QuizId") == null)
@@ -36,7 +34,7 @@ namespace QuizApplicationMVC.Controllers
             if (_context.Questions != null)
             {
                 var questions = await _context.Questions
-                    .Where(q => q.QuizId == currentQuizId) // Filter by QuizId
+                    .Where(q => q.QuizId == currentQuizId) 
                     .ToListAsync();
 
                 return View(questions);
@@ -47,7 +45,6 @@ namespace QuizApplicationMVC.Controllers
             }
         }
 
-        // GET: Questions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Questions == null)
@@ -65,12 +62,10 @@ namespace QuizApplicationMVC.Controllers
             return View(questions);
         }
 
-        // GET: Questions/Create
         public IActionResult Create()
         {
             if (HttpContext.Session.GetInt32("Id") == null)
             {
-                // Session is not set, so redirect to the login page or take appropriate action
                 return RedirectToAction("Login", "Users");
             }
             if (HttpContext.Session.GetInt32("QuizId") == null)
@@ -80,15 +75,12 @@ namespace QuizApplicationMVC.Controllers
             return View();
         }
 
-        // POST: Questions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("QuestionsId,QuestionsName,OptionA,OptionB,OptionC,OptionD,CorrectOption")] Questions questions)
         {
             if (HttpContext.Session.GetInt32("Id") == null)
             {
-                // Session is not set, so redirect to the login page or take appropriate action
                 return RedirectToAction("Login", "Users");
             }
 
@@ -120,9 +112,7 @@ namespace QuizApplicationMVC.Controllers
             questions.CorrectOption = COption;
             questions.QuizId = (int)HttpContext.Session.GetInt32("QuizId");
             questions.Quiz = await _context.Quiz.FindAsync(questions.QuizId);
-            Console.WriteLine("************");
-            Console.WriteLine(questions.Quiz.Title);
-            Console.WriteLine("************");
+          
 
             if (ModelState.IsValid)
             {
@@ -131,11 +121,10 @@ namespace QuizApplicationMVC.Controllers
                 int quizId = (int)HttpContext.Session.GetInt32("QuizId");
                 var quiz = await _context.Quiz.Include(q => q.Questions).FirstOrDefaultAsync(q => q.Id == quizId);
 
-                // Add the new question to the Quiz's Questions list
                 if (quiz != null)
                 {
                     quiz.Questions.Add(questions);
-                    await _context.SaveChangesAsync(); // Update the Quiz to reflect the changes
+                    await _context.SaveChangesAsync(); 
                 }
                 foreach (var que in quiz.Questions)
                 {
@@ -145,7 +134,6 @@ namespace QuizApplicationMVC.Controllers
             }
             else
             {
-                Console.WriteLine("Validation Errors:");
                 foreach (var modelState in ModelState.Values)
                 {
                     foreach (var error in modelState.Errors)
@@ -157,7 +145,6 @@ namespace QuizApplicationMVC.Controllers
             return View(questions);
         }
 
-        // GET: Questions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Questions == null)
@@ -173,8 +160,6 @@ namespace QuizApplicationMVC.Controllers
             return View(questions);
         }
 
-        // POST: Questions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,QuestionsName,OptionA,OptionB,OptionC,OptionD,CorrectOption")] Questions updatedQuestion)
@@ -186,7 +171,6 @@ namespace QuizApplicationMVC.Controllers
 
             if (ModelState.IsValid)
             {
-                // Load the existing question from the database
                 var existingQuestion = await _context.Questions.FindAsync(id);
 
                 if (existingQuestion == null)
@@ -194,7 +178,6 @@ namespace QuizApplicationMVC.Controllers
                     return NotFound();
                 }
 
-                // Update the fields of the existing question with the values from the updatedQuestion
                 existingQuestion.QuestionsName = updatedQuestion.QuestionsName;
                 existingQuestion.OptionA = updatedQuestion.OptionA;
                 existingQuestion.OptionB = updatedQuestion.OptionB;
@@ -244,7 +227,6 @@ namespace QuizApplicationMVC.Controllers
         }
 
 
-        // GET: Questions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Questions == null)
@@ -262,7 +244,6 @@ namespace QuizApplicationMVC.Controllers
             return View(questions);
         }
 
-        // POST: Questions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -279,14 +260,13 @@ namespace QuizApplicationMVC.Controllers
             int quizId = (int)HttpContext.Session.GetInt32("QuizId");
             var quiz = await _context.Quiz.Include(q => q.Questions).FirstOrDefaultAsync(q => q.Id == quizId);
 
-            // Remove the deleted question from the Quiz's Questions list
             if (quiz != null)
             {
                 var questionToDelete = quiz.Questions.FirstOrDefault(q => q.Id == id);
                 if (questionToDelete != null)
                 {
                     quiz.Questions.Remove(questionToDelete);
-                    await _context.SaveChangesAsync(); // Update the Quiz to reflect the changes
+                    await _context.SaveChangesAsync(); 
                 }
             }
             await _context.SaveChangesAsync();

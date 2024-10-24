@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/QuizApplicationMVC.styles.css" asp-append-version="true" />
     <style>
-        /* Dark mode styles */
         body {
             background-color: #222;
             color: #fff;
@@ -42,10 +41,8 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <!-- Rest of your navigation bar code remains unchanged -->
-            <!-- ... -->
             <div class="container-fluid">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">QuizBuzz</a>
+                <a class="navbar-brand text-white" asp-controller="Home" asp-action="Index">QuizBuzz</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -53,29 +50,29 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark"  asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Quiz" asp-action="Index">Quizes</a>
+                            <a class="nav-link text-dark"  asp-controller="Quiz" asp-action="Index">Quizes</a>
                         </li>
                         @if (Context.Request.HttpContext.Session.GetInt32("Id") == null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark"  asp-controller="Users" asp-action="Login">Login</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Create">Register</a>
+                                <a class="nav-link text-dark"  asp-controller="Users" asp-action="Create">Register</a>
                             </li>
                         }
                         @if (Context.Request.HttpContext.Session.GetInt32("Id") != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Details" asp-route-id="@Context.Request.HttpContext.Session.GetInt32("Id")">My Profile</a>
+                                <a class="nav-link text-dark"  asp-controller="Users" asp-action="Details" asp-route-id="@Context.Request.HttpContext.Session.GetInt32("Id")">My Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Logout">Logout</a>
+                                <a class="nav-link text-dark"  asp-controller="Users" asp-action="Logout">Logout</a>
                             </li>
                         }
 
@@ -92,7 +89,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - QuizBuzz - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2023 - QuizBuzz - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

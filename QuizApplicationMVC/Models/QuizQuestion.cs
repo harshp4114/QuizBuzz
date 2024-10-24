@@ -3,7 +3,7 @@
     public class QuizQuestion
     {
         public int Id { get; set; }
-        public int QuizId { get; set; } // Foreign key
+        public int QuizId { get; set; } 
         public string QuestionName { get; set; }
         public string OptionA { get; set; }
         public string OptionB { get; set; }
